@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel = "stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <h1>Welcome to RVIDEO the ultimate ai video generator.</h1>
+    <form method="POST" action="{% url 'process_prompt' %}">
+        {% csrf_token %}
+        <input type="text" name="user_input" class="user-input" placeholder="Enter your prompt" required>
+        <input type="number" name="video_length" class="video-length" placeholder="Video length in seconds" required>
+        <input type="text" name="tone" class="tone" placeholder="Style (e.g., happy, scary, realistic)">
+        <input type="number" name="number_of_images" required``></input>
+        <button type="submit">Generate</button>
+    </form>
+    <div id="output"></div>
+
+    <script src = "static/js/main.js" defer></script>
+</body>
+</html>

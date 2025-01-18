@@ -1,5 +1,8 @@
 google.generativeai
 pillow
 together
+Django == 5.1.5
 gemini api key = "AIzaSyBWrOq65UuHcogPJbS0Rzu3sgnmZcKS6Mw"
 flux api key = "a1d7f4fa1976a1eff3d991f0df4eba0f2419b2922ae586a6aabd559ca816fead"
+$env:TOGETHER_API_KEY = "a1d7f4fa1976a1eff3d991f0df4eba0f2419b2922ae586a6aabd559ca816fead"
+
