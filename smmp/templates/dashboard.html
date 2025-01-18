@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel = "stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="{% static  'css/styles.css'%}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h1>Welcome User!!!!!!!!</h1>
+        <form method="POST" action="{% url 'dashboard' %}">
+            {% csrf_token %}
+            <input type = "text" required name = "script_input"></input>
+            <input type = "number" required name = "video_length"></input>
+            <input type = "text" required name = "tone"></input>
+            <button type = "submit"></button>
+        </form>
+    <h5>This is the generated script: {{script}}</h5>
+    <h5>These are the segments of the script {{segments}}</h5>
+    <h5>These are the edited segments of the script: {{edited_segments}}
+</body>
+</html>
