@@ -6,6 +6,7 @@ from PIL import Image
 from together import Together
 from supabase import create_client, Client
 from . import script_gen_engine
+from django.http import HttpResponse
 
 
 SUPABASE_URL = "https://lnitjdoumoecovyrmdgi.supabase.co"
@@ -14,23 +15,26 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def dashboard(request): 
-     session_username = ""
+     
+    session_username = ""
+         
+    if request.session.get('username') is not None:
+        session_username = request.session.get('username')
 
-     if request.session.get('username') is not None:
-         session_username = request.session.get('username')
+        if request.method == 'POST':
+           user_input = request.POST.get('script_input')
+           video_length = request.POST.get('video_length')
+           tone = request.POST.get('tone')
 
-     if request.method == 'POST':
-        user_input = request.POST.get('script_input')
-        video_length = request.POST.get('video_length')
-        tone = request.POST.get('tone')
-
-        if user_input and video_length and tone:
-            script_gen_engine.script_generation(user_input, video_length, tone, request, session_username)
-
+           if user_input and video_length and tone:
+               script_gen_engine.script_generation(user_input, video_length, tone, request, session_username)
+           else:
+               return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
         else:
-            return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
-     else:
-        return render(request, 'dashboard.html' ,{'username' : session_username})
+           return render(request, 'dashboard.html' ,{'username' : session_username})
+    else:
+        return HttpResponse("You have to be logged in to see the dashboard")
+ 
 
 def log_in(request):
     if request.method == 'POST':
