@@ -4,6 +4,12 @@ import base64
 from io import BytesIO
 from PIL import Image
 from together import Together
+from supabase import create_client, Client
+
+SUPABASE_URL = "https://lnitjdoumoecovyrmdgi.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuaXRqZG91bW9lY292eXJtZGdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyNzk3ODEsImV4cCI6MjA1Mjg1NTc4MX0.TG4eJS00hHnqdVHc2tRp0Lyr3GO75KDjLL3cTsSONvA"
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 def home(request):
@@ -42,7 +48,7 @@ def dashboard(request):
                 inside_segment = False
 
                 for char in full_segmented_text:
-                    if char == "#":  # Start of a segment
+                    if char == "#": 
                        inside_segment = True
                        current_segment = ""
                     elif char == "*":  
@@ -63,16 +69,17 @@ def dashboard(request):
                         You are a model that is spezialized in creating image generation prompts based on a given text.
                         The prompt should be very descriptive and as detailed as possible for the ai to understand.
                         This is the text: {segment}. Do not add any maps or text to the images whatsoever.
+                        You also need to take into account the tone of the whole text which is given here: {tone}
                     ''')
                     image_gen_prompts.append(image_generation_prompt)
 
                 print(image_gen_prompts)
                  
                 for image_gen_prompt in image_gen_prompts:
-                    print(segment)
                     if image_gen_prompt != "":
+                         print(image_gen_prompt)
                          response = client.images.generate(
-                         prompt=f"{image_gen_prompt} Do not add any maps or text to the images whatsoever.",
+                         prompt=f"{image_gen_prompt} Do not add any maps or text to the images whatsoever.The image has to be continous and connected.It cant look like it is comprised of multiple images",
                          model="black-forest-labs/FLUX.1-schnell-Free",
                          width=1008,
                          height=1792,
@@ -93,7 +100,50 @@ def dashboard(request):
      else:
         return render(request, 'dashboard.html')
 
+def log_in (request):
 
+    has_logged_in = False
+
+    if has_logged_in:
+            return render(request, 'dashboard.html')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        response = supabase.table("user_information").select("*").eq("username", username).eq("password", password).execute()
+
+        if response.data:
+            has_logged_in = True
+            return render(request, 'dashboard.html')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid username or password'})
+        
+      
+
+    return render(request, 'login.html')
+
+
+def sign_in (request):
+    if request.method == 'POST':
+       username = request.POST.get ('username')
+       password = request.POST.get ('password')
+       confirm_password = request.POST.get ('confirm_password')
+
+
+       if password != confirm_password:
+           error_message = "Password do not match"
+           return render(request , 'sign_in.html', {'error_message' : error_message})
+       elif password == confirm_password:
+           response = (
+               supabase.table("user_information")
+               .insert({'username': username, 'password': password})
+               .execute()
+           )
+           error_message = "Password match"
+           return render(request , 'sign_in.html', {'error_message' : error_message})
+
+    return render(request, 'sign_in.html')
 
 
 

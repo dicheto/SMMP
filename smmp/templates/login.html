@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static  'css/styles.css'%}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div>
+        <h1>Welcome to SMMP the ultimate social media ai generator</h1>
+        <form method = "POST" action="{% url 'login' %}">
+            {% csrf_token %}
+        <input type = "text" placeholder = "Enter your username" name = "username">
+        <input type = "password" placeholder = "Enter your password" name = "password">
+        <p name = "">{{username_output}}</p>
+        <p name = "">{{password_output}}</p>
+        <button type = "submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

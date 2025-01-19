@@ -1,0 +1,1 @@
+add together api_key , google_generative_ai_key, supabase_url, supabase_api_key as env variables
