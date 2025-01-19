@@ -10,12 +10,16 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Welcome User!!!!!!!!</h1>
+    <h1>Welcome {{ username }}!!!!!!!!</h1>
+    <form method = "POST" action = {% url 'logout'%}>
+        {% csrf_token %}
+        <button type = "submit">Logout</button>
+    </form>
         <form method="POST" action="{% url 'dashboard' %}">
             {% csrf_token %}
-            <input type = "text" required name = "script_input"></input>
-            <input type = "number" required name = "video_length"></input>
-            <input type = "text" required name = "tone"></input>
+            <input type = "text" required name = "script_input" placeholder = "Enter a prompt"></input>
+            <input type = "number" required name = "video_length" placeholder = "Enter the length of the video"></input>
+            <input type = "text" required name = "tone" placeholder = "Set the tone of the video"></input>
             <button type = "submit"></button>
         </form>
     <h5>This is the generated script: {{script}}</h5>

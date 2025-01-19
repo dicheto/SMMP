@@ -1,10 +1,11 @@
 import google.generativeai as genai
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import base64
 from io import BytesIO
 from PIL import Image
 from together import Together
 from supabase import create_client, Client
+
 
 SUPABASE_URL = "https://lnitjdoumoecovyrmdgi.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuaXRqZG91bW9lY292eXJtZGdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyNzk3ODEsImV4cCI6MjA1Mjg1NTc4MX0.TG4eJS00hHnqdVHc2tRp0Lyr3GO75KDjLL3cTsSONvA"
@@ -16,6 +17,12 @@ def home(request):
    return render(request, 'index.html')
 
 def dashboard(request): 
+     
+     session_username = ""
+
+     if request.session.get('username') is not None:
+         session_username = request.session.get('username')
+
      if request.method == 'POST':
         user_input = request.POST.get('script_input')
         video_length = request.POST.get('video_length')
@@ -94,37 +101,42 @@ def dashboard(request):
                          image.show()
 
  
-                return render(request, 'dashboard.html', {'script': script_text, 'segments': full_segmented_text, 'edited_segments': segments})
+                return render(request, 'dashboard.html', {'script': script_text, 'segments': full_segmented_text, 'edited_segments': segments, 'username' :  session_username})
         else:
             return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
      else:
-        return render(request, 'dashboard.html')
+        return render(request, 'dashboard.html' ,{'username' : session_username})
 
-def log_in (request):
-
-    has_logged_in = False
-
-    if has_logged_in:
-            return render(request, 'dashboard.html')
-
+def log_in(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        response = supabase.table("user_information").select("*").eq("username", username).eq("password", password).execute()
+        response = supabase.table("user_information") \
+                           .select("user_id, username, password") \
+                           .eq("username", username) \
+                           .execute()
+        if response.data: 
+            user_data = response.data[0]
+            
+            # Validate the password
+            if password == user_data['password']: 
+                # Store user details in the session
+                request.session['user_id'] = user_data['user_id']
+                request.session['username'] = user_data['username']
 
-        if response.data:
-            has_logged_in = True
-            return render(request, 'dashboard.html')
+                
+                return render(request, 'dashboard.html', {"username" : request.session.get('username')})  
+            else:
+                return render(request, 'login.html', {'error': 'Invalid username or password'})
         else:
             return render(request, 'login.html', {'error': 'Invalid username or password'})
-        
-      
+    
 
     return render(request, 'login.html')
 
-
 def sign_in (request):
+
     if request.method == 'POST':
        username = request.POST.get ('username')
        password = request.POST.get ('password')
@@ -145,5 +157,7 @@ def sign_in (request):
 
     return render(request, 'sign_in.html')
 
-
+def logout (request):
+    request.session.flush()
+    return render(request, 'index.html')
 
