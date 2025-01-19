@@ -14,7 +14,6 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def dashboard(request): 
-     
      session_username = ""
 
      if request.session.get('username') is not None:
@@ -27,7 +26,7 @@ def dashboard(request):
 
         if user_input and video_length and tone:
             script_gen_engine.script_generation(user_input, video_length, tone, request, session_username)
-        
+
         else:
             return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
      else:
