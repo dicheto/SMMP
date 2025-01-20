@@ -12,7 +12,7 @@ def script_generation (user_input, video_length, tone, request,session_username)
     model = genai.GenerativeModel("gemini-1.5-flash")
     prompt = f"""
     You are a model specialized in creating scripts for short-form videos that will be used on platforms like TikTok, Instagram Reels, and YouTube Shorts.
-    Here is the user input: {user_input}. Based on the user input and the video length: {video_length}s, create a script to be added as a voiceover to the video.
+    Here is the user input: {user_input}. Based on the user input and the video length: {video_length}seconds, create a script to be added as a voiceover to the video.
     Ensure the script aligns with the tone: {tone}. Do not add any additional details only and only the exact words
     that the narrator has to say.
     """

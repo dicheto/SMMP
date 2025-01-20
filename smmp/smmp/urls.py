@@ -21,6 +21,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),  
+    path('', views.home, name='home'),
+    path('pricing/', views.pricing  , name='pricing'),
     path('', include('rvideo.urls')),
 ]

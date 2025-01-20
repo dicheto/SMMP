@@ -81,7 +81,7 @@ def sign_in (request):
                .execute()
            )
            error_message = "Password match"
-           return render(request , 'sign_in.html', {'error_message' : error_message})
+           return render(request , 'login.html')
 
     return render(request, 'sign_in.html')
 
