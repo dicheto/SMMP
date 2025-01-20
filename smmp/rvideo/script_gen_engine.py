@@ -20,7 +20,7 @@ def script_generation (user_input, video_length, tone, request,session_username)
     script_text = script_response.text
 
     full_segment_text = model.generate_content(f"""sumary_line
-    You are a model specialized in creating segments out of a given script.You have to analyze the script and brake it down into smaller segments based on context and what the
+    You are a model specialized in creating segments out of a given script.You have to analyze the script and break it down into smaller segments based on context and what the
     narrator is talking about. IT IS ABSOLUTELY FORBIDDEN TO CHANGE ANY TEXT OF THE ORIGINAL SCRIPT WHATSOEVER. YOU ONLY HAVE TO ANALYZE IT AND CUT IT INTO MULTIPLE PARTS.
     This is the script: {script_text}
     Each segment should start with "#" and end with "*".It has to be enloclosed with "#" and "*".
