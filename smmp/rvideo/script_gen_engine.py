@@ -44,7 +44,7 @@ def script_generation (user_input, video_length, tone, request,session_username)
             current_segment += char
  
                 
-    client = Together()
+    client = Together(api_key="a1d7f4fa1976a1eff3d991f0df4eba0f2419b2922ae586a6aabd559ca816fead")
     image_generation_prompt = ""
 
     image_gen_prompts = ['']

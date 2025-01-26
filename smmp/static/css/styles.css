@@ -1,6 +1,6 @@
-body{
-    background-color: turquoise;
-    text-align: center;
-    color: whitesmoke;
-    font-size: 1.5rem;
+
+#choose-btn:hover, #choose-btn:active{
+  background-color: black;
+  color:white;
 }
+

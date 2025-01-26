@@ -122,10 +122,20 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'static')
+   os.path.join(BASE_DIR, 'static/')
 ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Expire the session when the browser is closed
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Optional: Set a timeout for idle sessions (in seconds)
+SESSION_COOKIE_AGE = 3600  # 1 hour
+
+SESSION_COOKIE_SECURE = True  # Use this if you're on HTTPS
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript from accessing cookies
+SESSION_COOKIE_SAMESITE = 'Lax'  # Prevent CSRF in cross-origin requests

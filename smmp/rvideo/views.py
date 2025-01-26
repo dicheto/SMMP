@@ -13,27 +13,46 @@ SUPABASE_URL = "https://lnitjdoumoecovyrmdgi.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuaXRqZG91bW9lY292eXJtZGdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyNzk3ODEsImV4cCI6MjA1Mjg1NTc4MX0.TG4eJS00hHnqdVHc2tRp0Lyr3GO75KDjLL3cTsSONvA"
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+video_gen_type = ""
+
+def chooseGeneration(request):
+    session_username = request.session.get('username')
+    if request.method == "POST":
+        video_gen_type_btn = request.POST.get('choose-btn')
+        request.session['video_gen_type'] = video_gen_type_btn
+        return render(request, 'dashboard.html' ,{'username' : session_username})
+
 
 def dashboard(request): 
      
     session_username = ""
-         
+
     if request.session.get('username') is not None:
         session_username = request.session.get('username')
 
         if request.method == 'POST':
-           user_input = request.POST.get('script_input')
-           video_length = request.POST.get('video_length')
-           tone = request.POST.get('tone')
-
-           if user_input and video_length and tone:
-               script_gen_engine.script_generation(user_input, video_length, tone, request, session_username)
+           
+           video_gen_type = request.session.get('video_gen_type')
+           if video_gen_type == "AI Generation":
+               user_input = request.POST.get('script_input')
+               video_length = request.POST.get('video_length')
+               tone = request.POST.get('tone')
+               if user_input and video_length and tone:
+                   script_gen_engine.script_generation(user_input, video_length, tone, request, session_username)
+               else:
+                   return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
+           elif video_gen_type == "Stock content Websites":
+               pass
+           elif video_gen_type == "":
+               return HttpResponse("Please choose a video generation type")
            else:
-               return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
+               return HttpResponse("Inavlid video genration type")
         else:
            return render(request, 'dashboard.html' ,{'username' : session_username})
     else:
         return HttpResponse("You have to be logged in to see the dashboard")
+    
+    return render(request, 'dashboard.html', {'username' : session_username})
  
 
 def log_in(request):
