@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rvideo.apps.RvideoConfig'
+    'rvideo.apps.RvideoConfig',
+    'script_generation_module',
+    'background_generation_module',
 ]
 
 MIDDLEWARE = [

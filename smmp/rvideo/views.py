@@ -5,7 +5,7 @@ from io import BytesIO
 from PIL import Image
 from together import Together
 from supabase import create_client, Client
-from . import script_gen_engine
+from . import main
 from django.http import HttpResponse
 
 
@@ -32,21 +32,14 @@ def dashboard(request):
 
         if request.method == 'POST':
            
-           video_gen_type = request.session.get('video_gen_type')
-           if video_gen_type == "AI Generation":
-               user_input = request.POST.get('script_input')
-               video_length = request.POST.get('video_length')
-               tone = request.POST.get('tone')
-               if user_input and video_length and tone:
-                   script_gen_engine.script_generation(user_input, video_length, tone, request, session_username)
-               else:
-                   return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
-           elif video_gen_type == "Stock content Websites":
-               pass
-           elif video_gen_type == "":
-               return HttpResponse("Please choose a video generation type")
-           else:
-               return HttpResponse("Inavlid video genration type")
+            video_gen_type = request.session.get('video_gen_type')
+            user_input = request.POST.get('script_input')
+            video_length = request.POST.get('video_length')
+            tone = request.POST.get('tone')
+            if user_input and video_length and tone and video_gen_type:
+                main.processing_user_data(user_input, video_length, tone, request, session_username, video_gen_type)
+            else:
+                return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
         else:
            return render(request, 'dashboard.html' ,{'username' : session_username})
     else:
