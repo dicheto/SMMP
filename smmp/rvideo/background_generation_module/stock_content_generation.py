@@ -35,18 +35,21 @@ def stock_content_gen(segments, tone):
           
      
     # for image_search_prompt in image_search_prompts:
-    #  print(image_search_prompt)
-    # api.search(f'{image_search_prompt}', page=1, results_per_page=1)
+    #     print(image_search_prompt)
+    #     api.search(f'{image_search_prompt}', page=1, results_per_page=1)
+    #     photos = api.get_entries()
+
+    #     for photo in photos:
+    #         print('Photographer: ', photo.photographer)
+    #         print('Photo url: ', photo.url)
+    #         print('Photo original size: ', photo.original)
+
+    
 
 
     
 
-    # photos = api.get_entries()
-
-    # for photo in photos:
-    #     print('Photographer: ', photo.photographer)
-    #     print('Photo url: ', photo.url)
-    #     print('Photo original size: ', photo.original)
+   
 
 
 

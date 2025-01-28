@@ -7,6 +7,7 @@ from together import Together
 from supabase import create_client, Client
 from . import main
 from django.http import HttpResponse
+import bcrypt
 
 
 SUPABASE_URL = "https://lnitjdoumoecovyrmdgi.supabase.co"
@@ -57,17 +58,17 @@ def log_in(request):
                            .select("user_id, username, password") \
                            .eq("username", username) \
                            .execute()
-        if response.data: 
+        if response.data:
             user_data = response.data[0]
-            
-            # Validate the password
-            if password == user_data['password']: 
+            stored_hashed_password = user_data['password']
+
+            # Verify the password
+            if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
                 # Store user details in the session
                 request.session['user_id'] = user_data['user_id']
                 request.session['username'] = user_data['username']
 
-                
-                return render(request, 'dashboard.html', {"username" : request.session.get('username')})  
+                return render(request, 'dashboard.html', {"username": request.session.get('username')})
             else:
                 return render(request, 'login.html', {'error': 'Invalid username or password'})
         else:
@@ -86,14 +87,16 @@ def sign_in (request):
        if password != confirm_password:
            error_message = "Password do not match"
            return render(request , 'sign_in.html', {'error_message' : error_message})
-       elif password == confirm_password:
+       
+       else:
+           hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
            response = (
-               supabase.table("user_information")
-               .insert({'username': username, 'password': password})
-               .execute()
-           )
+                supabase.table("user_information")
+                .insert({'username': username, 'password': hashed_password.decode('utf-8')})
+                .execute()
+            )
            error_message = "Password match"
-           return render(request , 'login.html')
+           return render(request , 'login.html', {'error_message' : error_message})
 
     return render(request, 'sign_in.html')
 
