@@ -2,11 +2,11 @@
 from pexels_api import API
 import requests
 # Type your Pexels API
-PEXELS_API_KEY = 'YOUR-PEXELS-API-KEY'
+PEXELS_API_KEY = 't5kT5w0zmVw0AdR172RMGlpu128peM0fBMRVJTCHybydoKtj7oXhNfi0'
 # Create API object
-api = API("t5kT5w0zmVw0AdR172RMGlpu128peM0fBMRVJTCHybydoKtj7oXhNfi0")
+api = API(PEXELS_API_KEY)
 # Search five 'kitten' photos
-api.search('kitten', page=1, results_per_page=5)
+api.search('bulgaria', page=1, results_per_page=1)
 # Get photo entries
 photos = api.get_entries()
 # Loop the five photos
@@ -37,7 +37,7 @@ def download_image(image_url, save_path):
 image_url = "https://images.pexels.com/photos/1444321/pexels-photo-1444321.jpeg"
 
 # Path where you want to save the image
-save_path = "C:/Users/Radostin/Downloads/pexels-photo-1444321.jpeg"
+save_path = "C:/Users/Radostin Galev/Downloads/pexels-photo-1444321.jpeg"
 
 # Call the function to download the image
 download_image(image_url, save_path)

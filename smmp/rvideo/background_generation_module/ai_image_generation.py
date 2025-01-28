@@ -11,6 +11,8 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 def ai_image_gen(segments,tone):
 
+    print("The function")
+    
     client = Together(api_key="a1d7f4fa1976a1eff3d991f0df4eba0f2419b2922ae586a6aabd559ca816fead")
     image_generation_prompt = ""
 

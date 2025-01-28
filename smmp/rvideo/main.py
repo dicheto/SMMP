@@ -6,6 +6,7 @@ import base64
 from django.shortcuts import render, redirect
 from rvideo.script_generation_module.script_generation import script_gen
 from .background_generation_module.ai_image_generation import ai_image_gen
+from .background_generation_module.stock_content_generation import stock_content_gen
 from django.http import HttpResponse
 
 user_input = ''
@@ -27,8 +28,10 @@ def processing_user_data(user_input, video_length, tone, request, session_userna
         script_segments = script_gen(user_input, video_length, tone)
         ai_image_gen(script_segments, tone)
         return render(request, 'dashboard.html', {"username" : session_username})
-    elif video_gen_type == "Script Generation":
-        pass
+    elif video_gen_type == "Stock content Websites":
+        script_segments = script_gen(user_input, video_length, tone)
+        stock_content_gen(script_segments, tone)
+        return render(request, 'dashboard.html', {"username" : session_username})
     else:
         return HttpResponse("Invalid video generation type")
 
