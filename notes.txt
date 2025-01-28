@@ -1,7 +1,4 @@
 add together api_key , google_generative_ai_key, supabase_url, supabase_api_key as env variables
-venv\scripts\activate
 pip install -r requirements.txt
 cd smmp
-python manage.py makemigrations
-python manage.py migrate
 py manage.py runserver
