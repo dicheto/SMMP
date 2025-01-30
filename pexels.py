@@ -41,3 +41,18 @@ save_path = "C:/Users/Radostin Galev/Downloads/pexels-photo-1444321.jpeg"
 
 # Call the function to download the image
 download_image(image_url, save_path)
+
+
+   
+                # save_path = f"C:/Users/Radostin Galev/Downloads/pexels-photo-144432{counter}.jpeg"
+
+                # try:
+                #   response = requests.get(photo.original)
+                #   response.raise_for_status()  
+
+                #   with open(save_path, 'wb') as file:
+                #       file.write(response.content)
+                #   print(f"Image successfully downloaded and saved to {save_path}")
+                #   counter += 1
+                # except requests.exceptions.RequestException as e:
+                #       print(f"An error occurred: {e}")

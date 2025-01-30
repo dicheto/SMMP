@@ -4,3 +4,4 @@ pillow
 together
 supabase
 bcrypt
+bs4

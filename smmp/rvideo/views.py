@@ -69,9 +69,7 @@ def log_in(request):
             user_data = response.data[0]
             stored_hashed_password = user_data['password']
 
-            # Verify the password
             if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password.encode('utf-8')):
-                # Store user details in the session
                 request.session['user_id'] = user_data['user_id']
                 request.session['username'] = user_data['username']
 
