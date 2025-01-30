@@ -34,6 +34,9 @@
                 </div>
             </form>
 
+        {% if video_gen_type == ''%}
+
+        {% elif video_gen_type == "AI Generation"%}
             <form method="POST" action="{% url 'dashboard' %}" class="script-form">
                 {% csrf_token %}
                 <div class="input-group">
@@ -56,6 +59,33 @@
                 <button type="submit" class="submit-btn">Generate Video</button>
             </form>
         </div>
+
+        {% elif video_gen_type == "Stock content Websites"%}
+           <form method="POST" action="{% url 'dashboard' %}" class="script-form">
+                 {% csrf_token %}
+            <div class="input-group">
+                <div class="form-field">
+                    <label for="script_input">Video Prompt</label>
+                    <input type="text" required name="script_input" id="script_input" placeholder="Enter your creative prompt">
+                </div>
+                
+                <div class="form-field">
+                    <label for="video_length">Video Length (seconds)</label>
+                    <input type="number" required name="video_length" id="video_length" placeholder="Enter duration">
+                </div>
+                
+                <div class="form-field">
+                    <label for="tone">Video Tone</label>
+                    <input type="text" required name="tone" id="tone" placeholder="Set the mood (e.g., energetic, professional)">
+                </div>
+                <input type = "radio" required>Pexels</input>
+                <input type = "radio" required>Bing</input>
+            </div>
+            
+            <button type="submit" class="submit-btn">Generate Video</button>
+           </form>
+
+       {% endif %}
 
         <div class="results-section">
             {% if script %}
@@ -80,6 +110,8 @@
             {% endif %}
         </div>
     </div>
+
+
 
     <script src="{% static 'js/main.js' %}"></script>
 </body>

@@ -27,11 +27,11 @@ def processing_user_data(user_input, video_length, tone, request, session_userna
     if video_gen_type == "AI Generation":
         script_segments = script_gen(user_input, video_length, tone)
         ai_image_gen(script_segments, tone)
-        return render(request, 'dashboard.html', {"username" : session_username})
+        return render(request, 'dashboard.html', {"username" : session_username,'video_gen_type': video_gen_type})
     elif video_gen_type == "Stock content Websites":
         script_segments = script_gen(user_input, video_length, tone)
         stock_content_gen(script_segments, tone)
-        return render(request, 'dashboard.html', {"username" : session_username})
+        return render(request, 'dashboard.html', {"username" : session_username,'video_gen_type': video_gen_type})
     else:
         return HttpResponse("Invalid video generation type")
 

@@ -18,36 +18,43 @@ video_gen_type = ""
 
 def chooseGeneration(request):
     session_username = request.session.get('username')
+    
     if request.method == "POST":
         video_gen_type_btn = request.POST.get('choose-btn')
-        request.session['video_gen_type'] = video_gen_type_btn
-        return render(request, 'dashboard.html' ,{'username' : session_username})
+        request.session['video_gen_type'] = video_gen_type_btn  # Store in session
+    else:
+        video_gen_type_btn = request.session.get('video_gen_type', '')
 
+    return render(request, 'dashboard.html', {
+        'username': session_username,
+        'video_gen_type': video_gen_type_btn
+    })
 
 def dashboard(request): 
-     
-    session_username = ""
+    session_username = request.session.get('username', '')
+    video_gen_type = request.session.get('video_gen_type', '')
 
-    if request.session.get('username') is not None:
-        session_username = request.session.get('username')
-
-        if request.method == 'POST':
-           
-            video_gen_type = request.session.get('video_gen_type')
-            user_input = request.POST.get('script_input')
-            video_length = request.POST.get('video_length')
-            tone = request.POST.get('tone')
-            if user_input and video_length and tone and video_gen_type:
-                main.processing_user_data(user_input, video_length, tone, request, session_username, video_gen_type)
-            else:
-                return render(request, 'dashboard.html', {'error': 'Please fill all fields'})
-        else:
-           return render(request, 'dashboard.html' ,{'username' : session_username})
-    else:
+    if not session_username:
         return HttpResponse("You have to be logged in to see the dashboard")
-    
-    return render(request, 'dashboard.html', {'username' : session_username})
- 
+
+    if request.method == 'POST':
+        user_input = request.POST.get('script_input')
+        video_length = request.POST.get('video_length')
+        tone = request.POST.get('tone')
+
+        if user_input and video_length and tone and video_gen_type:
+            main.processing_user_data(user_input, video_length, tone, request, session_username, video_gen_type)
+        else:
+            return render(request, 'dashboard.html', {
+                'username': session_username,
+                'video_gen_type': video_gen_type,
+                'error': 'Please fill all fields'
+            })
+
+    return render(request, 'dashboard.html', {
+        'username': session_username,
+        'video_gen_type': video_gen_type
+    })
 
 def log_in(request):
     if request.method == 'POST':
