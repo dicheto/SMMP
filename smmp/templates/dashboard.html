@@ -8,25 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-<<<<<<< Updated upstream
-    <div class="main-container">
-        {% include 'navbar.html' %}
-        
-        <div class="hero-section">
-            <h1 class="welcome-message">Welcome, {{ username }}!</h1>
-            <form method="POST" action="{% url 'logout' %}" class="logout-form">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">Logout</button>
-            </form>
-        </div>
-=======
     {% include 'navbar.html' %}
     <h1>Welcome {{ username }}!!!!!!!!</h1>
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit" class="logout">Logout</button>
     </form>
->>>>>>> Stashed changes
 
         <div class="generation-container">
             <form method="POST" action="{% url 'chooseGeneration' %}" class="generation-form">
@@ -119,39 +106,6 @@
             {% endif %}
         </div>
     </div>
-<<<<<<< Updated upstream
-
-=======
-    </form>
-   
-    {% if video_gen_type == ''%}
-
-    {% elif video_gen_type == "AI Generation"%}
-    
-       <form method="POST" action="{% url 'dashboard' %}">
-           {% csrf_token %}
-           <input type="text" required name="script_input" placeholder="Enter a prompt"></input>
-           <input type="number" required name="video_length" placeholder="Enter the length of the video"></input>
-           <input type="text" required name="tone" placeholder="Set the tone of the video"></input>
-           <br>
-           <button type="submit">Submit</button>
-       </form>
-
-    {% elif video_gen_type == "Stock content Websites"%}
-
-        <form method="POST" action="{% url 'dashboard' %}">
-            {% csrf_token %}
-            <input type="text" required name="script_input" placeholder="Enter a prompt"></input>
-            <input type="number" required name="video_length" placeholder="Enter the length of the video"></input>
-            <input type="text" required name="tone" placeholder="Set the tone of the video"></input>
-            <input type="radio" requred name = "background-location">Pexels</input>
-            <input type="radio" requred name = "background-location">Bing</input>
-            <br>
-            <button type="submit">Submit</button>
-        </form>
-
-    {% endif %}
->>>>>>> Stashed changes
 
 
     <script src="{% static 'js/main.js' %}"></script>
