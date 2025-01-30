@@ -4,12 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static  'css/styles.css'%}">
+    <title>SMMP - Next-Gen Social Media AI</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Welcome to SMMP the ultimate social media ai generator</h1>
     
+    <main>
+        <section class="hero fade-in">
+            <div class="hero-content">
+                <h1 class="hero-title slide-up">Transform Your Social Media</h1>
+                <p class="hero-subtitle slide-up-delay">Unleash the power of AI to create stunning content</p>
+                <div class="hero-buttons slide-up-delay-2">
+                    <a href="/dashboard/" class="cta-button">Start Creating</a>
+                    <a href="/pricing/" class="secondary-button">View Plans</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="features-grid">
+                <div class="feature-card scroll-fade">
+                    <span class="feature-icon">✨</span>
+                    <h3>AI-Powered Creation</h3>
+                    <p>Generate engaging content in seconds</p>
+                </div>
+                <div class="feature-card scroll-fade">
+                    <span class="feature-icon">🚀</span>
+                    <h3>Smart Analytics</h3>
+                    <p>Track and optimize your performance</p>
+                </div>
+                <div class="feature-card scroll-fade">
+                    <span class="feature-icon">💫</span>
+                    <h3>Automation</h3>
+                    <p>Schedule and post automatically</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <div class="benefit-item scroll-reveal-left">
+                <h2>Create Content 10x Faster</h2>
+                <p>Our AI generates weeks of content in minutes</p>
+            </div>
+            <div class="benefit-item scroll-reveal-right">
+                <h2>Boost Engagement</h2>
+                <p>AI-optimized content that connects with your audience</p>
+            </div>
+        </section>
+    </main>
 </body>
+<script src="{% static 'js/scroll-animations.js' %}"></script>
 </html>

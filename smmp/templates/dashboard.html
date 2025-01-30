@@ -4,53 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static  'css/styles.css' %}">
+    <title>AI Video Generator</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    {% include 'navbar.html' %}
-    <h1>Welcome {{ username }}!!!!!!!!</h1>
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="logout">Logout</button>
-    </form>
-  
-    {% comment %} 
-    <form method="POST" action="{% url 'dashboard' %}">
-        {% csrf_token %}
-        <!-- Dropdown Button -->
-        <div class="dropdown">
-            <button type="submit" id="dropdown-title" name="dropdown_title" value="Default Value" onclick="event.preventDefault(); toggleDropdown();">
-                Choose video generation
-            </button>
-            <div id="myDropdown" class="dropdown-content">
-                <p class="dropdown_option-content" onclick="selectOption(this)">AI Generation</p>
-                <p class="dropdown_option-content" onclick="selectOption(this)">Stock Content Websites</p>
-            </div>
+    <div class="main-container">
+        {% include 'navbar.html' %}
+        
+        <div class="hero-section">
+            <h1 class="welcome-message">Welcome, {{ username }}!</h1>
+            <form method="POST" action="{% url 'logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
         </div>
-    </form> 
-    {% endcomment %}
 
-    <form method="POST" action="{% url 'chooseGeneration' %}">
-        {% csrf_token %}
-    <div class="generation-options">
-       <button class="video-generation-btn" value="AI Generation"  type = "submit" name = "choose-btn" id = "choose-btn">AI Generation</button>
-       <button class="video-generation-btn" value="Stock content Websites" type = "submit" name = "choose-btn"  id = "choose-btn">Stock content Websites</button>
+        <div class="generation-container">
+            <form method="POST" action="{% url 'chooseGeneration' %}" class="generation-form">
+                {% csrf_token %}
+                <div class="generation-options">
+                    <button class="video-generation-btn ai-btn" value="AI Generation" type="submit" name="choose-btn" id="choose-btn">
+                        <span class="btn-icon">🤖</span>
+                        AI Generation
+                    </button>
+                    <button class="video-generation-btn stock-btn" value="Stock content Websites" type="submit" name="choose-btn" id="choose-btn">
+                        <span class="btn-icon">🎥</span>
+                        Stock Content Websites
+                    </button>
+                </div>
+            </form>
+
+            <form method="POST" action="{% url 'dashboard' %}" class="script-form">
+                {% csrf_token %}
+                <div class="input-group">
+                    <div class="form-field">
+                        <label for="script_input">Video Prompt</label>
+                        <input type="text" required name="script_input" id="script_input" placeholder="Enter your creative prompt">
+                    </div>
+                    
+                    <div class="form-field">
+                        <label for="video_length">Video Length (seconds)</label>
+                        <input type="number" required name="video_length" id="video_length" placeholder="Enter duration">
+                    </div>
+                    
+                    <div class="form-field">
+                        <label for="tone">Video Tone</label>
+                        <input type="text" required name="tone" id="tone" placeholder="Set the mood (e.g., energetic, professional)">
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Generate Video</button>
+            </form>
+        </div>
+
+        <div class="results-section">
+            {% if script %}
+                <div class="result-card">
+                    <h3>Generated Script</h3>
+                    <p>{{ script }}</p>
+                </div>
+            {% endif %}
+            
+            {% if segments %}
+                <div class="result-card">
+                    <h3>Script Segments</h3>
+                    <p>{{ segments }}</p>
+                </div>
+            {% endif %}
+            
+            {% if edited_segments %}
+                <div class="result-card">
+                    <h3>Edited Segments</h3>
+                    <p>{{ edited_segments }}</p>
+                </div>
+            {% endif %}
+        </div>
     </div>
-    </form>
 
-    <form method="POST" action="{% url 'dashboard' %}">
-        {% csrf_token %}
-        <input type="text" required name="script_input" placeholder="Enter a prompt"></input>
-        <input type="number" required name="video_length" placeholder="Enter the length of the video"></input>
-        <input type="text" required name="tone" placeholder="Set the tone of the video"></input>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
-
-    <h5>This is the generated script: {{script}}</h5>
-    <h5>These are the segments of the script {{segments}}</h5>
-    <h5>These are the edited segments of the script: {{edited_segments}}</h5>
-    <script src="{% static  'js/main.js'%}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
